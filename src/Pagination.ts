@@ -59,6 +59,15 @@ export class Pagination implements PaginationData {
 
 	constructor(params: Partial<UserParams>) {
 		Object.assign(this, params);
+
+		if (this.currentPage < this.firstPage) {
+			this.currentPage = this.firstPage;
+		}
+
+		if (this.currentPage > this.lastPage) {
+			this.currentPage = this.lastPage;
+		}
+
 		Object.seal(this);
 	}
 

@@ -81,4 +81,38 @@ describe('Pagination', () => {
 
 		assertEquals(result.pages, [1, '…', 6, 7, 8, 9, 10]);
 	});
+
+	it('corrects the current page when less than the first page', () => {
+		const result = new Pagination({
+			totalItems: 1000,
+			currentPage: -1,
+		});
+
+		assertObjectMatch(result.toJSON(), {
+			currentPage: 1,
+			isFirstPage: true,
+			isLastPage: false,
+			nextPage: 2,
+			previousPage: null,
+			hasNextPage: true,
+			hasPreviousPage: false,
+		});
+	});
+
+	it('corrects the current page when greater than the last page', () => {
+		const result = new Pagination({
+			totalItems: 1000,
+			currentPage: 100,
+		});
+
+		assertObjectMatch(result.toJSON(), {
+			currentPage: 50,
+			isFirstPage: false,
+			isLastPage: true,
+			nextPage: null,
+			previousPage: 49,
+			hasNextPage: false,
+			hasPreviousPage: true,
+		});
+	});
 });
