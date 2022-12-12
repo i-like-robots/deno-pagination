@@ -118,22 +118,6 @@ export class Pagination implements PaginationData {
 		return this.currentPage > this.firstPage;
 	}
 
-	get skipBackTo() {
-		return Math.max(this.currentPage - 5, this.firstPage);
-	}
-
-	get skipForwardTo() {
-		return Math.min(this.currentPage + 5, this.lastPage);
-	}
-
-	get showSkipBackTo() {
-		return this.currentPage > this.firstPage + Sizes[this.size];
-	}
-
-	get showSkipForwardTo() {
-		return this.currentPage < this.lastPage - Sizes[this.size];
-	}
-
 	get pages() {
 		return createPageRange(
 			this.lastPage,
