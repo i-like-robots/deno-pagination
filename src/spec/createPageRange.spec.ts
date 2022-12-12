@@ -20,7 +20,7 @@ describe('.createPageRange()', () => {
 	describe('when the number of pages is greater than set size', () => {
 		describe('and the current page number is at the start', () => {
 			it('truncates page numbers to the start', () => {
-				const result = createPageRange(100, 1, 7);
+				const result = createPageRange(100, 3, 7);
 				assertEquals(result, [1, 2, 3, 4, 5, '…', 100]);
 			});
 		});
@@ -34,14 +34,38 @@ describe('.createPageRange()', () => {
 
 		describe('and the current page number is in the middle', () => {
 			it('truncates the start and end page numbers', () => {
-				const result = createPageRange(100, 49, 7);
+				const a = createPageRange(100, 5, 7);
 
-				assertEquals(result, [
+				assertEquals(a, [
 					1,
 					'…',
-					48,
+					4,
+					5,
+					6,
+					'…',
+					100,
+				]);
+
+				const b = createPageRange(100, 50, 7);
+
+				assertEquals(b, [
+					1,
+					'…',
 					49,
 					50,
+					51,
+					'…',
+					100,
+				]);
+
+				const c = createPageRange(100, 95, 7);
+
+				assertEquals(c, [
+					1,
+					'…',
+					94,
+					95,
+					96,
 					'…',
 					100,
 				]);
