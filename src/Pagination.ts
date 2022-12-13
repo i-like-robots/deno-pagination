@@ -1,11 +1,13 @@
 import { createPageRange } from './createPageRange.ts';
 
-export type PaginationSizes = 'small' | 'medium' | 'large';
+export type PaginationSizes = 'xs' | 's' | 'm' | 'l' | 'xl';
 
 const Sizes: Record<PaginationSizes, number> = {
-	small: 5,
-	medium: 7,
-	large: 9,
+	xs: 5,
+	s: 7,
+	m: 9,
+	l: 11,
+	xl: 15,
 };
 
 interface UserParams {
@@ -17,7 +19,7 @@ interface UserParams {
 	itemsPerPage: number;
 	/** Constrain the last page to a maximum depth, defaults to Infinity */
 	maxPageDepth: number;
-	/** Number of items to return in the pages array, defaults to 7 */
+	/** Number of items to return in the pages array, defaults to 'm' */
 	size: PaginationSizes;
 }
 
@@ -55,7 +57,7 @@ export class Pagination implements PaginationData {
 	public currentPage = 1;
 	public itemsPerPage = 20;
 	public maxPageDepth = Infinity;
-	public size: PaginationSizes = 'medium';
+	public size: PaginationSizes = 's';
 
 	constructor(params: Partial<UserParams>) {
 		Object.assign(this, params);
