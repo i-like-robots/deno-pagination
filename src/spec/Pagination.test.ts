@@ -79,7 +79,7 @@ describe('Pagination', () => {
 			hasPreviousPage: true,
 		});
 
-		assertEquals(result.pages, [1, '…', 6, 7, 8, 9, 10]);
+		assertEquals(result.pageList, [1, '…', 6, 7, 8, 9, 10]);
 	});
 
 	it('corrects the current page when less than the first page', () => {

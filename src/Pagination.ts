@@ -1,8 +1,8 @@
 import { createPageRange } from './createPageRange.ts';
 
-export type PaginationSizes = 'xs' | 's' | 'm' | 'l' | 'xl';
+export type PageListSizes = 'xs' | 's' | 'm' | 'l' | 'xl';
 
-const Sizes: Record<PaginationSizes, number> = {
+const Sizes: Record<PageListSizes, number> = {
 	xs: 5,
 	s: 7,
 	m: 9,
@@ -11,41 +11,43 @@ const Sizes: Record<PaginationSizes, number> = {
 };
 
 interface UserParams {
-	/** Total number of items in data set, defaults to 0 */
+	/** Total number of items in your data set, defaults to 0. */
 	totalItems: number;
-	/** The currently selected page, defaults to 1 */
+	/** The currently selected page, defaults to 1. */
 	currentPage: number;
-	/** Number of items to show per page, defaults to 20 */
+	/** Number of items being displayed on each page, defaults to 20. */
 	itemsPerPage: number;
-	/** Constrain the last page to a maximum depth, defaults to Infinity */
+	/** Constrain the last page to a maximum depth, defaults to Infinity. */
 	maxPageDepth: number;
-	/** Number of items to return in the pages array, defaults to 'm' */
-	size: PaginationSizes;
+	/** Size of the `pageList` array, defaults to "m". */
+	pageListSize: PageListSizes;
 }
 
 interface DynamicParams {
-	/** Index of the first item for the current page */
+	/** Index of the first item for the current page. */
 	firstIndex: number;
-	/** Index of the last item for the current page */
+	/** Index of the last item for the current page. */
 	lastIndex: number;
-	/** The total number of pages */
+	/** The total number of pages. */
 	totalPages: number;
-	/** The number of the first page (always 1) */
+	/** The number of the first page (always 1.) */
 	firstPage: number;
-	/** The number of the last page, optionally limited to the specified max depth */
+	/** The number of the last page (optionally limited by the max depth.) */
 	lastPage: number;
-	/** The number of the next page or empty if there is no next page */
+	/** The number of the next page or null if there is no next page. */
 	nextPage: number | null;
-	/** The number of the previous page or empty if there is no previous page */
+	/** The number of the previous page or null if there is no previous page. */
 	previousPage: number | null;
-	/** Boolean indicating whether or not there is a next page */
+	/** Whether or not there is a next page. */
 	hasNextPage: boolean;
-	/** Boolean indicating whether or not there is a previous page */
+	/** Whether or not there is a previous page. */
 	hasPreviousPage: boolean;
-	/** Boolean indicating whether or not the current page is the first page */
+	/** Whether or not the current page is the first page. */
 	isFirstPage: boolean;
-	/** Boolean indicating whether or not the current page is the last page */
+	/** Whether or not the current page is the last page. */
 	isLastPage: boolean;
+	/** A list of page numbers to display based on the specified size. */
+	pageList: Array<number | string>;
 }
 
 export interface PaginationData extends UserParams, DynamicParams {
@@ -57,7 +59,7 @@ export class Pagination implements PaginationData {
 	public currentPage = 1;
 	public itemsPerPage = 20;
 	public maxPageDepth = Infinity;
-	public size: PaginationSizes = 's';
+	public pageListSize: PageListSizes = 's';
 
 	constructor(params: Partial<UserParams>) {
 		Object.assign(this, params);
@@ -120,11 +122,11 @@ export class Pagination implements PaginationData {
 		return this.currentPage > this.firstPage;
 	}
 
-	get pages() {
+	get pageList() {
 		return createPageRange(
 			this.lastPage,
 			this.currentPage,
-			Sizes[this.size],
+			Sizes[this.pageListSize],
 		);
 	}
 
@@ -142,7 +144,7 @@ export class Pagination implements PaginationData {
 			previousPage: this.previousPage,
 			hasNextPage: this.hasNextPage,
 			hasPreviousPage: this.hasPreviousPage,
-			pages: this.pages,
+			pageList: this.pageList,
 		};
 	}
 }
