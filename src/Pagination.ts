@@ -1,6 +1,6 @@
 import { createPageRange } from './createPageRange.ts';
 
-export type PageListSizes = 'xs' | 's' | 'm' | 'l' | 'xl';
+type PageListSizes = 'xs' | 's' | 'm' | 'l' | 'xl';
 
 const Sizes: Record<PageListSizes, number> = {
 	xs: 5,
@@ -50,25 +50,21 @@ interface DynamicParams {
 	pageList: Array<number | string>;
 }
 
-export interface PaginationData extends UserParams, DynamicParams {
-	toJSON(): PaginationData;
-}
+export interface PaginationData extends UserParams, DynamicParams {}
 
-export class Pagination implements PaginationData {
+export class Pagination implements UserParams, Readonly<DynamicParams> {
 	public totalItems = 0;
 	public currentPage = 1;
 	public itemsPerPage = 20;
 	public maxPageDepth = Infinity;
 	public pageListSize: PageListSizes = 's';
 
-	constructor(params: Partial<UserParams>) {
+	constructor(params: Partial<UserParams> = {}) {
 		Object.assign(this, params);
 
 		if (this.currentPage < this.firstPage) {
 			this.currentPage = this.firstPage;
-		}
-
-		if (this.currentPage > this.lastPage) {
+		} else if (this.currentPage > this.lastPage) {
 			this.currentPage = this.lastPage;
 		}
 
@@ -130,7 +126,7 @@ export class Pagination implements PaginationData {
 		);
 	}
 
-	toJSON() {
+	toJSON(): PaginationData {
 		return {
 			...this,
 			firstIndex: this.firstIndex,
