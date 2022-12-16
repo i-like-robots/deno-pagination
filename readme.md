@@ -54,6 +54,8 @@ Size of the `pageList` array, defaults to `"m"`. May be one of `"xs" | "s" | "m"
 
 ## Instance properties
 
+All properties are read only.
+
 ### `firstIndex`
 
 Index of the first item for the current page.
@@ -106,4 +108,4 @@ A list of page numbers to display based on the specified size.
 
 ### `.toJSON()`
 
-Returns all of the parameters and properties as a single object.
+Returns all of the configuration [parameters](#parameters) and [properties](#instance-properties) as a single object.
